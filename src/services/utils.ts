@@ -22,12 +22,16 @@ export const generateId = (): string => {
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const getEnv = (key: string): string => {
+  // Fix: Strictly use import.meta.env for Vite. 
+  // REMOVED process.env entirely to prevent "TS2580: Cannot find name 'process'" error.
   const meta = import.meta as any;
-  if (meta && meta.env && meta.env[`VITE_${key}`]) {
-    return meta.env[`VITE_${key}`];
-  }
-  if (typeof process !== 'undefined' && process.env && process.env[key]) {
-    return process.env[key] || '';
+  if (meta && meta.env) {
+    if (meta.env[`VITE_${key}`]) {
+      return meta.env[`VITE_${key}`];
+    }
+    if (meta.env[key]) {
+      return meta.env[key];
+    }
   }
   return '';
 };

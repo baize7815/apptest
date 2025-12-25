@@ -112,7 +112,8 @@ export const describeImage = async (
 /**
  * Step 2: Image Generation (Universal OpenAI-compatible images/generations)
  */
-export const generateVariation = async (originalFile: File, prompt: string, config: ServiceConfig): Promise<string> => {
+// Fix: Renamed originalFile to _originalFile to avoid "TS6133: 'originalFile' is declared but never used"
+export const generateVariation = async (_originalFile: File, prompt: string, config: ServiceConfig): Promise<string> => {
   const apiKey = config.apiKey || getEnv('API_KEY');
   let baseUrl = cleanBaseUrl(config.baseUrl || getEnv('BASE_URL'));
 
